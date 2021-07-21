@@ -68,7 +68,7 @@ Click Next \
 
 ## Step 2 -  Build Stage 
 Build provider: AWS CodeBuild \
-default region \
+choose default region \
 Project : 
 * For Create a new build project 
 * Environment image: Use an image managed by AWS CodeBuild 
@@ -99,19 +99,18 @@ ECS is container management service which can quickly launch,exit abd manage doc
 ### Run ECS Clusters on EC2 Spot Instances
 * Step 1: Select a Cluster Template
 ![Test Image 5](https://d1.awsstatic.com/PAC/ECS-Step1b.05c8b038ef29d98e52b1eeb60d66f45b8a26a62f.png)
-* Step 2: Configure your Cluster
+* Step 2: Configure your Cluster \
+  Change the Configuration according to our need.
 ![Test Image 5](https://d1.awsstatic.com/PAC/ECS-Step2b.67f3df565c4791136e10e08b4010dd16b083a9eb.png)
-* Step 3: Create a New Task Definition
-click on “Add Container”. \
-container name and image values from buildspec.yml file.\
-All configuration related to container image.
-
-![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%201.e61b5d2922761c28ef26404cad9f33041224a3bf.png)
-* Step 4: Configure your ECS service
-![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%202.652a2b7a10965720e7b4c8008bbbed1aa9166e86.png)
-click next step
-
-
+* Step 3: Create a New Task Definition \
+    click on “Add Container”. \
+    container name and image values from buildspec.yml file.\
+    All configuration related to container image.
+    ![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%201.e61b5d2922761c28ef26404cad9f33041224a3bf.png)
+* Step 4: Configure your ECS service \
+    Configure services need according needs.
+    ![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%202.652a2b7a10965720e7b4c8008bbbed1aa9166e86.png)
+    click next step
 
 ***
 ## Step 3 - Deploy stage
