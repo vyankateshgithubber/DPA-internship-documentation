@@ -8,10 +8,10 @@ We are going to use **AWS CodePipeline** to model our pipeline. The pipeline its
 3. The last stage **Deploy** will use update **Amazon ECS** to use the new image URL for its container. 
 ***
 ## Pre-requisites:
-1. Your source code including buildspec.yml in the root folder. \
-buildspec.yaml file \
-***Create AWS ECR***
-Make sure you replace the REPOSITORY_URI with your AWS ECR Repository URL and Container name value (AWS Task Definition Container Name).
+* Your source code including buildspec.yml in the root folder.
+* **Create AWS ECR**
+* Make sure you replace the REPOSITORY_URI with your AWS ECR Repository URL and Container name value (AWS Task Definition Container Name).
+* buildspec.yaml file 
 ```
 version: 0.2
 phases:
@@ -45,45 +45,49 @@ post_build:
 artifacts:
   files: imagedefinitions.json
 ```
-Commit all changes \
-**Note:** \
-buildspec.yaml required for AWS codebuild
+* **Note:** buildspec.yaml required for AWS codebuild 
+* Commit all changes 
+
 
 ## Initial Step
-Go to https://eu-west-1.console.aws.amazon.com/codesuite/home?region=eu-west-1 \
-Click Pipeline \
-Create a new project with CodePipeline \
-Give the project a name \
-Choose New Service Role \
-click Next 
+* Go to https://eu-west-1.console.aws.amazon.com/codesuite/home?region=eu-west-1 
+* Click Pipeline 
+* Create a new project with CodePipeline 
+* Give the project a name 
+* Choose New Service Role 
+* click Next 
+
 ![Test Image 1](https://miro.medium.com/max/700/1*k5QwcKNKM8iCHKbPFKOEQA.png)
 
 ## Step 1 - Source stage
-choose the source location where the code is stored. This could be AWS CodeCommit, GitHub, BitBucket or Amazon S3. \
-Source Provider select BitBucket \
-select Repository name \
-select branch - master \
-Click Next \
-![Test Image 2](https://miro.medium.com/max/700/1*-X9MQy67QEvh20JMKTFH3Q.png)
+* choose the source location where the code is stored. This could be AWS CodeCommit, GitHub, BitBucket or Amazon S3. 
+* Source Provider 
+* select Repository name 
+* select branch - master 
+* Click Next 
+
+  ![Test Image 2](https://miro.medium.com/max/700/1*-X9MQy67QEvh20JMKTFH3Q.png)
 
 ## Step 2 -  Build Stage 
-Build provider: AWS CodeBuild \
-choose default region \
-Project : 
+* Build provider: AWS CodeBuild 
+* choose default region 
+* Project : 
 * For Create a new build project 
 * Environment image: Use an image managed by AWS CodeBuild 
 * Operating system: Ubuntu 
 * Runtime: Docker 
 * Version: aws/codebuild/docker:1.12.1 
-* Build specification: Use the buildspec.yml in the source code root directory \
+* Build specification: Use the buildspec.yml in the source code root directory 
 
 ### Update CodeBuild Project IAM Role:
 Go to IAM Console and find IAM role created by your codebuild project \
-***Add permissions to ECR full access (AmazonEC2ContainerRegistryFullAccess policy)***
-
+***Add permissions to ECR full access (AmazonEC2ContainerRegistryFullAccess policy)*** 
 ![Test Image 3](https://miro.medium.com/max/700/1*8I3cDf5ru9rKtOpi0F50LA.png)
+
 ***
+
 ## Before deployment stage create running ECS Cluster, service and task definition.
+
 ### AWS ECS (Elastic Container Service)
 It is a service that manages the containers. \
 Amazone ECS maintains the availability of the application and allows every user to scale containers when necessary. \
@@ -94,33 +98,34 @@ ECS is container management service which can quickly launch,exit abd manage doc
 * **Service** — Defines long running tasks of the same Task Definition. This can be 1 running container or multiple running containers all using the same Task Definition.
 * **Cluster** — A logic group of EC2 instances.
 
-![Test Image 5](https://miro.medium.com/max/668/1*k29gxIwwhDaP-Ge-G-yXCQ.png)
+  ![Test Image 5](https://miro.medium.com/max/668/1*k29gxIwwhDaP-Ge-G-yXCQ.png)
 
 ### Run ECS Clusters on EC2 Spot Instances
 * Step 1: Select a Cluster Template
-![Test Image 5](https://d1.awsstatic.com/PAC/ECS-Step1b.05c8b038ef29d98e52b1eeb60d66f45b8a26a62f.png)
+    ![Test Image 5](https://d1.awsstatic.com/PAC/ECS-Step1b.05c8b038ef29d98e52b1eeb60d66f45b8a26a62f.png)
 * Step 2: Configure your Cluster \
   Change the Configuration according to our need.
-![Test Image 5](https://d1.awsstatic.com/PAC/ECS-Step2b.67f3df565c4791136e10e08b4010dd16b083a9eb.png)
+
+    ![Test Image 5](https://d1.awsstatic.com/PAC/ECS-Step2b.67f3df565c4791136e10e08b4010dd16b083a9eb.png)
 * Step 3: Create a New Task Definition \
     click on “Add Container”. \
-    container name and image values from buildspec.yml file.\
+    container name and image values from buildspec.yml file. \
     All configuration related to container image.
     ![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%201.e61b5d2922761c28ef26404cad9f33041224a3bf.png)
 * Step 4: Configure your ECS service \
-    Configure services need according needs.
-    ![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%202.652a2b7a10965720e7b4c8008bbbed1aa9166e86.png)
-    click next step
+    Configure services need according needs.\
+    ![Test Image 5](https://d1.awsstatic.com/products/EC2/Spot/Containers%20for%20Less%202.652a2b7a10965720e7b4c8008bbbed1aa9166e86.png) 
+* click next step
 
 ***
 ## Step 3 - Deploy stage
-Add a deployment \
-Deploy provider : Choose AWS ECS. (This is the infrastructure where your code will be deployed.) \
-cluster name : choose already created cluster \
-service name : choose already created cluster \
+* Add a deployment 
+* Deploy provider : Choose AWS ECS. (This is the infrastructure where your code will be deployed.) 
+* cluster name : choose already created cluster
+* service name : choose already created cluster 
 imagedefinitions.json artifacts files 
 
-![Test Image 4](https://miro.medium.com/max/700/1*bniaD3cWFehHWjgc-zpNrQ.png)
+  ![Test Image 4](https://miro.medium.com/max/700/1*bniaD3cWFehHWjgc-zpNrQ.png)
 
-### Lastly, review all of your config, and click Create pipeline.
-### Now when we commit to master branch, pipeline automatically triggers.
+#### Lastly, review all of your config, and click Create pipeline.
+#### Now when we commit to master branch, pipeline automatically triggers.
