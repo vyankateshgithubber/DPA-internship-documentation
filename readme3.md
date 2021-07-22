@@ -1,17 +1,17 @@
 # Implementation of CI/CD for containers on AWS using ECS and CodePipeline
 ***
-![Test Image 1](cicd.png)
+  ![Test Image 1](cicd.png)
 ***
 We are going to use **AWS CodePipeline** to model our pipeline. The pipeline itself will have 3 stages: Source, Build, and Deploy. 
 1. The first stage **Source** will fetch the source code from **bitbucket** and send the artifact to the next stage. 
-2. Second stage **Build** will use AWS CodeBuild to run the docker image building from the code artifact and then store the image to **Amazon ECR**. This stage will output the container name and the image URL as artifact to next stage. 
+2. Second stage **Build** will use **AWS CodeBuild** to run the docker image building from the code artifact and then store the image to **Amazon ECR**. This stage will output the container name and the image URL as artifact to next stage. 
 3. The last stage **Deploy** will use update **Amazon ECS** to use the new image URL for its container. 
 ***
 ## Pre-requisites:
 * Your source code including buildspec.yml in the root folder.
 * **Create AWS ECR**
 * Make sure you replace the REPOSITORY_URI with your AWS ECR Repository URL and Container name value (AWS Task Definition Container Name).
-* buildspec.yaml file 
+* buildspec.yaml file used to build docker image and store image to your amazone ECR
 ```
 version: 0.2
 phases:
@@ -57,13 +57,13 @@ artifacts:
 * Choose New Service Role 
 * click Next 
 
-![Test Image 1](https://miro.medium.com/max/700/1*k5QwcKNKM8iCHKbPFKOEQA.png)
+  ![Test Image 1](https://miro.medium.com/max/700/1*k5QwcKNKM8iCHKbPFKOEQA.png)
 
 ## Step 1 - Source stage
 * choose the source location where the code is stored. This could be AWS CodeCommit, GitHub, BitBucket or Amazon S3. 
-* Source Provider 
-* select Repository name 
-* select branch - master 
+* Select Source Provider 
+* Select Repository name 
+* Select Branch - master 
 * Click Next 
 
   ![Test Image 2](https://miro.medium.com/max/700/1*-X9MQy67QEvh20JMKTFH3Q.png)
@@ -78,11 +78,11 @@ artifacts:
 * Runtime: Docker 
 * Version: aws/codebuild/docker:1.12.1 
 * Build specification: Use the buildspec.yml in the source code root directory 
+  ![Test Image 3](https://miro.medium.com/max/700/1*8I3cDf5ru9rKtOpi0F50LA.png)
 
 ### Update CodeBuild Project IAM Role:
-Go to IAM Console and find IAM role created by your codebuild project \
-***Add permissions to ECR full access (AmazonEC2ContainerRegistryFullAccess policy)*** 
-![Test Image 3](https://miro.medium.com/max/700/1*8I3cDf5ru9rKtOpi0F50LA.png)
+  Go to IAM Console and find IAM role created by your codebuild project \
+  **Add permissions to ECR full access (AmazonEC2ContainerRegistryFullAccess policy)**
 
 ***
 

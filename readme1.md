@@ -1,4 +1,4 @@
-# Create and Deploy the Docker Image of ML API on multiple servers
+# Create and Deploy the Docker Image of ML API across multiple servers
 ***
 ## Step by step procedure
 1. Create the Dockerfile given ML API 

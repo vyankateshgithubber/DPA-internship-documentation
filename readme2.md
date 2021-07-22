@@ -3,7 +3,7 @@
 ## Usecases
 How dockerized web scrapper image helps?
 1.	Usually, performing the web scrapping repeatedly number of times which leads to the increasing memory usage of chrome driver and have possibilities of crash. To avoid this problem completely removing containers from memory after web scrapping stores results locally.
-2.	As web scrapping in regular interval of time, we can use event driven cloud computing service like Amazon Lambda which has pay-per-use basis. This will also reduce overall cost.
+2.	As web scrapping done in regular interval of time, we can use event driven cloud computing service like Amazon Lambda which has pay-per-use basis. This will also reduce overall cost.
 ***
 ## Steps followed
 1.	Create Dockerfile for python selenium script.
@@ -41,8 +41,8 @@ WORKDIR /app/
 ```
 ## Docker compose file
 selenium/standalone-chrome starts first then selenium script image. \
-urllink runtime argument 
-containers used the shared volumes i.e. data will be stored local host machine(in our case /app directory)
+urllink runtime argument \
+containers used the shared volumes i.e. containers data will be stored local host machine(in our case /app directory)
 ```
 version: '3'
 services: 
@@ -65,10 +65,10 @@ services:
 ## Script file
 
 **export will assigns the value to runtime argument that defined in compose file** \
-export urllink=value \
+export urllink=value 
 
 **Build and run containers sequentially, stop all containers when any one of container fails** \
-docker-compose -f filepath/docker-compose.yml up --build --abort-on-container-exit  \
+docker-compose -f filepath/docker-compose.yml up --build --abort-on-container-exit  
 
 **Stop and Remove the all containers and networks** \
 docker-compose -f filepath/docker-compose.yml down 
@@ -89,11 +89,11 @@ docker-compose -f /home/docker/job1/docker-compose.yml down
 ```
 At 30 min interval run script1.sh and store the log in log1.txt file \
 At 35 min interval run script2.sh and store the log in log2.txt file \
-Use link https://crontab.guru/ 
+Use link https://crontab.guru/ to set time interval according to our need.
 
 ## Run crontab 
 ```
     $ crontab sch.cron
 ```
-## Now task will run at specified regular interval unless we stop crontab 
+## Now task will run and store results at specified regular interval unless we stop crontab 
 
